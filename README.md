@@ -1,4 +1,7 @@
 This is still in Early Beta stage... 
+Still to do: 
+- Category List
+- Documentation
 
 # Yootheme PhocaCart Bridge
 
