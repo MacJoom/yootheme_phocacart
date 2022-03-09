@@ -2,7 +2,7 @@ This is still in Early Beta stage...
 
 # Yootheme PhocaCart Bridge
 
-This is a bridge of [YooThemePro (YTP) Page Builder](https://yootheme.com/page-builder) with [PhocaCart](https://phoca.cz). It provides a front-end, 'drag and drop' layout builder for PhocaCart Entities, such as Products and Categories, which are loaded as Dynamic Content [custom sources](https://yootheme.com/support/yootheme-pro/joomla/developers-sources) into YTP. It uses PhocaCart API, and integrates with Dynaimic Content features including filtering and sorting by field, filtering by category & image URLs.
+This is a bridge of [YooThemePro (YTP) Page Builder](https://yootheme.com/page-builder) with [PhocaCart](https://phoca.cz). It provides a front-end, 'drag and drop' layout builder for PhocaCart Entities, such as Products and Categories, which are loaded as Dynamic Content [custom sources](https://yootheme.com/support/yootheme-pro/joomla/developers-sources) into YTP. It uses PhocaCart API, and integrates with Dynamic Content features including filtering and sorting by field, filtering by category & image URLs.
 
 It was originally developed by [Deepak Srivastava](https://github.com/deepak-srivastava/) of [Mountev](https://mountev.co.uk/), with the support of [Joshua Gowans](https://lab.civicrm.org/josh) and [Nicol](https://lab.civicrm.org/nicol) Wistreich ([Vingle](https://github.com/vingle)) for CiviCRM
 and was adapted for PhocaCart by Martin Kopp (https://infotech.ch)
