@@ -15,6 +15,6 @@ and was adapted for PhocaCart by Martin Kopp (https://infotech.ch)
 
 3. Activate Child in Yootheme 
 
-4. Follow YTP's [documentation for Dynamic Content](https://yootheme.com/support/yootheme-pro/joomla/dynamic-content), selecting the relevent CiviCRM entites as Custom Sources
+4. Follow YTP's [documentation for Dynamic Content](https://yootheme.com/support/yootheme-pro/joomla/dynamic-content), selecting the relevent PhocaCart entites as Custom Sources - Products only at the moment.
 
 > **It is recommended to use this only on test/dev sites until you are comfortable with, and understand, how it works**
