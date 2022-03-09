@@ -1,4 +1,4 @@
-> :warning: **Use this with care — provide access only to trusted user roles**. 
+This is still in Early Beta stage... 
 
 # Yootheme PhocaCart Bridge
 
