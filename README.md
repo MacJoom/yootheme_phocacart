@@ -10,6 +10,8 @@ This is a bridge of [YooThemePro (YTP) Page Builder](https://yootheme.com/page-b
 It was originally developed by [Deepak Srivastava](https://github.com/deepak-srivastava/) of [Mountev](https://mountev.co.uk/), with the support of [Joshua Gowans](https://lab.civicrm.org/josh) and [Nicol](https://lab.civicrm.org/nicol) Wistreich ([Vingle](https://github.com/vingle)) for CiviCRM
 and was adapted for PhocaCart by Martin Kopp (https://infotech.ch)
 
+![](images/yootheme_phocacart.gif)
+
 ## Installation
 
 1. Install YooThemePro template (Joomla!)
