@@ -27,5 +27,5 @@ and was adapted for PhocaCart by Martin Kopp (https://infotech.ch)
 
 ### Warning 
 
-If you screw something up in the code - yootheme will not load anymore (no error, just a white screen), because the settings and config of fields are loaded right at the beginning. In this case just rename the template to something else. Yootheme will load again with your child template deactivated.
+If you screw something up in the code - yootheme will not load anymore (no error, just a white screen), because the settings and config of fields are loaded right at the beginning. In this case just rename the template to something else (e.g. yootheme_phocacart to zzzyootheme_phocacart). Yootheme will load again with the child template deactivated.
 
