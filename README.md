@@ -24,3 +24,8 @@ and was adapted for PhocaCart by Martin Kopp (https://infotech.ch)
 4. Follow YTP's [documentation for Dynamic Content](https://yootheme.com/support/yootheme-pro/joomla/dynamic-content), selecting the relevent PhocaCart entites as Custom Sources - Products only at the moment.
 
 > **It is recommended to use this only on test/dev sites until you are comfortable with, and understand, how it works**
+
+### Warning 
+
+If you screw something up in the code - yootheme will not load anymore (no error, just a white screen), because the settings and config of fields are loaded right at the beginning. In this case just rename the template to something else. Yootheme will load again with your child template deactivated.
+
