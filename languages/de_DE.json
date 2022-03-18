@@ -1,0 +1,14 @@
+{
+    "Select a parent category.": "Wähle eine übergeordnete Kategorie aus.",
+    "Select the category (has priority).": "Wähle eine Kategorie aus (hat Vorrang).",
+    "A Product Category": "Eine Produktkategorie",
+    "Phocacart Products": "Phocacart Produkte",
+    "Phocacart Categories": "Phocacart Kategorien",
+    "Parent Product Category": "Übergeordnete Kategorie",
+    "Phocacart Category": "Phocacart Kategorie",
+    "Select a category.": "Wähle eine Kategorie",
+    "- ANY -": "- Alle -",
+    "- NONE -": "- Keine -",
+    "Descending":"Absteigend",
+    "Ascending": "Aufsteigend"
+}

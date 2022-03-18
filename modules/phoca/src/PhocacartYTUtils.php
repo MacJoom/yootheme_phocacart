@@ -9,13 +9,13 @@ class PhocacartYTUtils {
         require JPATH_ADMINISTRATOR . '/components/com_phocacart/libraries/autoloadPhoca.php';
         //require_once JPATH_BASE.'/components/com_phocacart/controllers/phocacartcommons.php';
         jimport('joomla.application.component.controller');
-        JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_phocacart/tables');
+        //JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_phocacart/tables');
    }
     return defined('PHOCACART_DSN');
   }
 
   public static function getPhocacartProductFields() {
-      $language = Factory::getLanguage();
+      $language = Factory::getApplication()->getLanguage();
       $language ->load('com_phocacart',JPATH_SITE);
 
       $db = Factory::getContainer()->get('DatabaseDriver');
@@ -28,6 +28,21 @@ class PhocacartYTUtils {
       }
       return $fields;
   }
+    public static function getPhocacartCategoryFields() {
+        //$language = Factory::getLanguage();
+        $language = Factory::getApplication()->getLanguage();
+        $language ->load('com_phocacart',JPATH_SITE);
+
+        $db = Factory::getContainer()->get('DatabaseDriver');
+        $q = "SHOW COLUMNS FROM #__phocacart_categories";
+        $db->setQuery($q);
+        $fields = $db->loadAssocList();
+        foreach ($fields as $idx => &$field)  {
+            $n = 'COM_PHOCACART_FIELD_'.strtoupper($field['Field']).'_LABEL';
+            $field['title']=JText::_($n);
+        }
+        return $fields;
+    }
     public static function getPhocacartProductCategories() {
         $db = Factory::getContainer()->get('DatabaseDriver');
         $q = "SELECT id,title  FROM #__phocacart_categories";
@@ -36,7 +51,33 @@ class PhocacartYTUtils {
         return $fields;
     }
 
-  public static function getEntityFields($apiResult, $fieldsToKeep = [], $fieldsToAdd = []) {
+    public static function getCategoryByParentId($pid,$sid) {
+
+        if ($pid >-1) {
+            $db = Factory::getContainer()->get('DatabaseDriver');
+            $query = 'SELECT a.title, a.alias, a.id, a.parent_id, a. image'
+                . ' FROM #__phocacart_categories AS a'
+                . ' WHERE a.parent_id = ' . $pid
+                . ' ORDER BY a.ordering';
+            //. ' LIMIT 1'; We need all subcategories
+            $db->setQuery( $query );
+            $categories = $db->loadObjectList();
+        }
+        if ($sid >-1) {
+            $db = Factory::getContainer()->get('DatabaseDriver');
+            $query = 'SELECT a.title, a.alias, a.id, a.parent_id, a. image'
+                . ' FROM #__phocacart_categories AS a'
+                . ' WHERE a.id = ' . $sid
+                . ' ORDER BY a.ordering';
+            //. ' LIMIT 1'; We need all subcategories
+            $db->setQuery( $query );
+            $categories = $db->loadObjectList();
+        }
+
+        return $categories;
+    }
+
+    public static function getEntityFields($apiResult, $fieldsToKeep = [], $fieldsToAdd = []) {
     $entityFields = [];
     if (!empty($apiResult)) {
       foreach ($apiResult as $idx => $field) {

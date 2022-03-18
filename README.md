@@ -1,7 +1,9 @@
-This is still in Early Beta stage... but already in use for a product catalog
+This is still in Beta stage... but already in use for a product catalog
+- Done: Display Categories
+- New feature: Translations in ./languages
 
 Still to do: 
-- Category List
+- <s>Category List</s>
 - Documentation
 
 # Yootheme PhocaCart Bridge

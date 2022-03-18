@@ -1,14 +1,11 @@
 <?php
 use PhocacartYTUtils as PCU; //nicht PhocacartUtils!!! schon in Benutzung...
 
-class PhocacartProductType //defines the fields to be used - see db table for all the fields
+class PhocacartCategoryType //defines the fields to be used - see db table for all the fields
 {
   public static $fieldsToKeep = [ //fields to keep from all fields
     'id',
     'title',
-    'description',
-    'sku',
-    'price',
     'image',
   ];
 
@@ -25,12 +22,12 @@ class PhocacartProductType //defines the fields to be used - see db table for al
     if (empty($entityFields)) {
       PCU::init();
 
-      $result = PCU::getPhocacartProductFields();
+      $result = PCU::getPhocacartCategoryFields();
       $entityFields = PCU::getEntityFields($result, self::$fieldsToKeep, self::$fieldsToAdd);
       if (!empty($entityFields)) {
         $entityFields['metadata'] = [
           // Label used in the customizer
-          'label' => 'PhocacartProduct',
+          'label' => 'PhocacartCategory',
 
           // Denotes that this is an object type and makes the type usable as dynamic content source
           'type' => true,

@@ -1,28 +1,26 @@
 <?php
-
 use PhocacartYTUtils as PCU;
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
 define('DS', DIRECTORY_SEPARATOR);
 use function YOOtheme\trans;
 
-class PhocacartProductsQueryType
+class PhocacartCategoriesQueryType
 {
   public static function config()
   {
     PCU::init();
     $a= PCU::getPhocacartProductCategories();
-      $lc = trans('Phocacart Category');
-      $lp = trans('Phocacart Products');
-      $any = trans ('- ANY -');
-      $asc = trans ('Ascending');
-      $desc = trans ('Descending');
+    $l = trans('Phocacart Categories');
+    $none = trans ('- NONE -');
+    $asc = trans ('Ascending');
+    $desc = trans ('Descending');
 
       return [
       'fields' => [
-        'Phocacartproducts' => [
+        'Phocacartcategories' => [
           'type' => [
-            'listOf' => 'PhocacartProduct',
+            'listOf' => 'PhocacartCategory',
           ],
 
           // Arguments passed to the resolver function
@@ -33,7 +31,10 @@ class PhocacartProductsQueryType
             'limit' => [
               'type' => 'Int',
             ],
-            'category' => [
+            'parentcategory' => [
+              'type' => 'Int'
+            ],
+            'singlecategory' => [
               'type' => 'Int'
             ],
             'url_filter_field' => [
@@ -49,7 +50,7 @@ class PhocacartProductsQueryType
 
           'metadata' => [
             // Label in dynamic content select box
-            'label' => $lp,
+            'label' => $l,
 
             // Option group in dynamic content select box
             'group' => 'Phocacart',
@@ -57,16 +58,26 @@ class PhocacartProductsQueryType
             // Fields to input arguments in the customizer
             'fields' => [
               // The array key corresponds to a key in the 'args' array above
-              'category' => [
+              'parentcategory' => [
                 // Field label
-                'label' => $lc,
+                'label' => 'Parent Product Category',
                 // Field description
-                'description' => 'Select a category.',
+                'description' => 'Select a parent category.',
                 // Default or custom field types can be used
                 'type' => 'select',
-                'default' => 0,
-                 'options' => [$any => 0] + $a,
+                'default' => -1,
+                 'options' => [$none => -1] + $a,
               ],
+              'singlecategory' => [
+                    // Field label
+                    'label' => 'A Product Category',
+                    // Field description
+                    'description' => 'Select the category (has priority).',
+                    // Default or custom field types can be used
+                    'type' => 'select',
+                    'default' => -1,
+                    'options' => [$none => -1] + $a,
+                ],
 /*
               'url_filter_field' => [
                 // Field label
@@ -76,7 +87,7 @@ class PhocacartProductsQueryType
                 // Default or custom field types can be used
                 'type' => 'select',
                 'default' => '',
-                'options' => ['- NONE -' => ''],
+                'options' => [$none => ''],
               ],
 */
               '_offset' => [
@@ -156,9 +167,13 @@ class PhocacartProductsQueryType
         }
       }*/
       // filter with joins
-      if (!empty($args['category'])) {
-        $p['catid_multiple']= array($args['category']);
+      if ($args['parentcategory']!=-1) {
+        $p['parentcatid']= $args['parentcategory'];
       }
+        if ($args['singlecategory']!=-1) {
+            $p['singlecatid']= $args['singlecategory'];
+        }
+
       /*
       $params['chain'] = [
         'address_0' => ['Address', 'get', ['where' => [['contact_id', '=', '$id'], ['is_primary', '=', 1]]]],
@@ -166,18 +181,19 @@ class PhocacartProductsQueryType
       */
       PCU::applyUrlFilter($args, $p);
 
-      //$result			= PCU::getProducts(0, $p['item_limit'], $p['item_ordering'], 0, true, false, false, 0, $p['catid_multiple'], $p['featured_only'], array(0,1), '', '', true);
-        $result			= PhocacartProduct::getProducts(0, $p['item_limit'], $p['item_ordering'], 0, true, false, false, 0, $p['catid_multiple'], $p['featured_only'], array(0,1), '', '', true);
-        $pathitem 		= PhocacartPath::getPath('productimage');
+      //$result			= PhocacartProduct::getProducts(0, $p['item_limit'], $p['item_ordering'], 0, true, false, false, 0, $p['catid_multiple'], $p['featured_only'], array(0,1), '', '', true);
+      $result			= PCU::getCategoryByParentId($p['parentcatid'],$p['singlecatid']);
+      $pathitem 		= PhocacartPath::getPath('categoryimage');
 
-        foreach ($result as &$product) {
-            if (!empty($product->image)) {
-                //$product->image_URL = "<img src='$pathitem->orig_rel_ds.{$product->image}'>";
-            $product->image = DS.$pathitem['orig_rel_ds'].$product->image;
-            $product->link = JRoute::_(PhocacartRoute::getItemRoute($product->id, $product->catid, $product->alias, $product->catalias));
+      foreach ($result as &$category) {
+        if (!empty($category->image)) {
+          //$product->image_URL = "<img src='$pathitem->orig_rel_ds.{$product->image}'>";
+            $category->image = DS.$pathitem['orig_rel_ds'].$category->image;
+            //$category->link = JRoute::_(PhocacartRoute::getItemRoute($category->id, $product->catid, $product->alias, $product->catalias));
+            $category->link = PhocacartRoute::getCategoryRoute($category->id, $category->alias);
 
         }
-        $entities[$key][] = $product;
+        $entities[$key][] = $category;
       }
     }
     return $entities[$key];
