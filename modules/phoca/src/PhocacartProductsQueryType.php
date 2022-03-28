@@ -1,9 +1,8 @@
 <?php
-
 use PhocacartYTUtils as PCU;
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
-define('DS', DIRECTORY_SEPARATOR);
+defined('DS') or define('DS', DIRECTORY_SEPARATOR);
 use function YOOtheme\trans;
 
 class PhocacartProductsQueryType

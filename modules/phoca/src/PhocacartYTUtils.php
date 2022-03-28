@@ -52,9 +52,16 @@ class PhocacartYTUtils {
     }
 
     public static function getCategoryByParentId($pid,$sid) {
+        $db = Factory::getContainer()->get('DatabaseDriver');
+        if ($pid = -2) { //all categories
+            $query = 'SELECT a.title, a.alias, a.id, a.parent_id, a. image'
+                . ' FROM #__phocacart_categories AS a'
+                . ' ORDER BY a.ordering';
+            $db->setQuery( $query );
+            $categories = $db->loadObjectList();
 
+        }
         if ($pid >-1) {
-            $db = Factory::getContainer()->get('DatabaseDriver');
             $query = 'SELECT a.title, a.alias, a.id, a.parent_id, a. image'
                 . ' FROM #__phocacart_categories AS a'
                 . ' WHERE a.parent_id = ' . $pid
@@ -63,8 +70,7 @@ class PhocacartYTUtils {
             $db->setQuery( $query );
             $categories = $db->loadObjectList();
         }
-        if ($sid >-1) {
-            $db = Factory::getContainer()->get('DatabaseDriver');
+        if ($sid >-1) { //override parent select
             $query = 'SELECT a.title, a.alias, a.id, a.parent_id, a. image'
                 . ' FROM #__phocacart_categories AS a'
                 . ' WHERE a.id = ' . $sid

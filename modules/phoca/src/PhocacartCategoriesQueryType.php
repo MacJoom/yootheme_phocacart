@@ -2,7 +2,7 @@
 use PhocacartYTUtils as PCU;
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
-define('DS', DIRECTORY_SEPARATOR);
+defined('DS') or define('DS', DIRECTORY_SEPARATOR);
 use function YOOtheme\trans;
 
 class PhocacartCategoriesQueryType
@@ -13,6 +13,7 @@ class PhocacartCategoriesQueryType
     $a= PCU::getPhocacartProductCategories();
     $l = trans('Phocacart Categories');
     $none = trans ('- NONE -');
+    $all = trans ('- ANY -');
     $asc = trans ('Ascending');
     $desc = trans ('Descending');
 
@@ -66,7 +67,7 @@ class PhocacartCategoriesQueryType
                 // Default or custom field types can be used
                 'type' => 'select',
                 'default' => -1,
-                 'options' => [$none => -1] + $a,
+                 'options' => [$none => -1] + [$all => -2] + $a,
               ],
               'singlecategory' => [
                     // Field label
