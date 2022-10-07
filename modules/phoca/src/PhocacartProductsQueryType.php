@@ -163,6 +163,9 @@ class PhocacartProductsQueryType
         'address_0' => ['Address', 'get', ['where' => [['contact_id', '=', '$id'], ['is_primary', '=', 1]]]],
       ];
       */
+      $p['item_limit']='';
+      $p['item_ordering']='';
+      $p['featured_only']='';
       PCU::applyUrlFilter($args, $p);
 
       //$result			= PCU::getProducts(0, $p['item_limit'], $p['item_ordering'], 0, true, false, false, 0, $p['catid_multiple'], $p['featured_only'], array(0,1), '', '', true);

@@ -168,6 +168,8 @@ class PhocacartCategoriesQueryType
         }
       }*/
       // filter with joins
+      $p['parentcatid']='';
+      $p['singlecatid']='';
       if ($args['parentcategory']!=-1) {
         $p['parentcatid']= $args['parentcategory'];
       }
@@ -185,16 +187,17 @@ class PhocacartCategoriesQueryType
       //$result			= PhocacartProduct::getProducts(0, $p['item_limit'], $p['item_ordering'], 0, true, false, false, 0, $p['catid_multiple'], $p['featured_only'], array(0,1), '', '', true);
       $result			= PCU::getCategoryByParentId($p['parentcatid'],$p['singlecatid']);
       $pathitem 		= PhocacartPath::getPath('categoryimage');
+      if (is_array($result)) {
+          foreach ($result as &$category) {
+              if (!empty($category->image)) {
+                  //$product->image_URL = "<img src='$pathitem->orig_rel_ds.{$product->image}'>";
+                  $category->image = DS.$pathitem['orig_rel_ds'].$category->image;
+                  //$category->link = JRoute::_(PhocacartRoute::getItemRoute($category->id, $product->catid, $product->alias, $product->catalias));
+                  $category->link = PhocacartRoute::getCategoryRoute($category->id, $category->alias);
 
-      foreach ($result as &$category) {
-        if (!empty($category->image)) {
-          //$product->image_URL = "<img src='$pathitem->orig_rel_ds.{$product->image}'>";
-            $category->image = DS.$pathitem['orig_rel_ds'].$category->image;
-            //$category->link = JRoute::_(PhocacartRoute::getItemRoute($category->id, $product->catid, $product->alias, $product->catalias));
-            $category->link = PhocacartRoute::getCategoryRoute($category->id, $category->alias);
-
-        }
-        $entities[$key][] = $category;
+              }
+              $entities[$key][] = $category;
+          }
       }
     }
     return $entities[$key];

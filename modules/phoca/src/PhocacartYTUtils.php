@@ -53,7 +53,8 @@ class PhocacartYTUtils {
 
     public static function getCategoryByParentId($pid,$sid) {
         $db = Factory::getContainer()->get('DatabaseDriver');
-        if ($pid = -2) { //all categories
+        $categories=[];
+        if ($pid == -2) { //all categories
             $query = 'SELECT a.title, a.alias, a.id, a.parent_id, a. image'
                 . ' FROM #__phocacart_categories AS a'
                 . ' ORDER BY a.ordering';
