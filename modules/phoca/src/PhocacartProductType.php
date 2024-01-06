@@ -1,9 +1,9 @@
 <?php
-use PhocacartYTUtils as PCU; //nicht PhocacartUtils!!! schon in Benutzung...
+use PhocacartYTUtils as PCU;
 
-class PhocacartProductType //defines the fields to be used - see db table for all the fields
+class PhocacartProductType
 {
-  public static $fieldsToKeep = [ //fields to keep from all fields
+  public static $fieldsToKeep = [
     'id',
     'title',
     'description',
@@ -12,14 +12,14 @@ class PhocacartProductType //defines the fields to be used - see db table for al
     'image',
   ];
 
-  public static $fieldsToAdd = [ //calculated fields
+  public static $fieldsToAdd = [
     'link' => 'Link',
   ];
 
   /**
    * @return array
    */
-  public static function config() //load fields for beeing displayed in yootheme
+  public static function config()
   {
     static $entityFields = [];
     if (empty($entityFields)) {

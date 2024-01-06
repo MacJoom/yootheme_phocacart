@@ -1,9 +1,9 @@
 <?php
+
 use PhocacartYTUtils as PCU;
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
-defined('DS') or define('DS', DIRECTORY_SEPARATOR);
-use function YOOtheme\trans;
+define('DS', DIRECTORY_SEPARATOR);
 
 class PhocacartProductsQueryType
 {
@@ -11,13 +11,7 @@ class PhocacartProductsQueryType
   {
     PCU::init();
     $a= PCU::getPhocacartProductCategories();
-      $lc = trans('Phocacart Category');
-      $lp = trans('Phocacart Products');
-      $any = trans ('- ANY -');
-      $asc = trans ('Ascending');
-      $desc = trans ('Descending');
-
-      return [
+    return [
       'fields' => [
         'Phocacartproducts' => [
           'type' => [
@@ -48,7 +42,7 @@ class PhocacartProductsQueryType
 
           'metadata' => [
             // Label in dynamic content select box
-            'label' => $lp,
+            'label' => 'Phocacart Products',
 
             // Option group in dynamic content select box
             'group' => 'Phocacart',
@@ -58,13 +52,14 @@ class PhocacartProductsQueryType
               // The array key corresponds to a key in the 'args' array above
               'category' => [
                 // Field label
-                'label' => $lc,
+                'label' => 'Product Category',
                 // Field description
                 'description' => 'Select a category.',
                 // Default or custom field types can be used
                 'type' => 'select',
                 'default' => 0,
-                 'options' => [$any => 0] + $a,
+                //'options' => ['- ANY -' => 0, 'Gruppe 1'=>1, 'Gruppe 2' => 2],
+                 'options' => ['- ANY -' => 0] + $a,
               ],
 /*
               'url_filter_field' => [
@@ -75,6 +70,7 @@ class PhocacartProductsQueryType
                 // Default or custom field types can be used
                 'type' => 'select',
                 'default' => '',
+                //'options' => ['- NONE -' => ''] + CiviContactType::getFieldList(),
                 'options' => ['- NONE -' => ''],
               ],
 */
@@ -111,7 +107,7 @@ class PhocacartProductsQueryType
                   'order' => [
                     'label' => 'Order',
                     'type' => 'select',
-                    'default' => 'title',
+                    'default' => 'sort_name',
                     'options' => [
                       'Title' => 'title',
                       'ID'  => 'id',
@@ -122,8 +118,8 @@ class PhocacartProductsQueryType
                     'type' => 'select',
                     'default' => 'ASC',
                     'options' => [
-                      $asc => 'ASC',
-                      $desc => 'DESC',
+                      'Ascending' => 'ASC',
+                      'Descending' => 'DESC',
                     ],
                   ],
                 ],
@@ -163,18 +159,15 @@ class PhocacartProductsQueryType
         'address_0' => ['Address', 'get', ['where' => [['contact_id', '=', '$id'], ['is_primary', '=', 1]]]],
       ];
       */
-      $p['item_limit']='';
-      $p['item_ordering']='';
-      $p['featured_only']='';
       PCU::applyUrlFilter($args, $p);
 
-      //$result			= PCU::getProducts(0, $p['item_limit'], $p['item_ordering'], 0, true, false, false, 0, $p['catid_multiple'], $p['featured_only'], array(0,1), '', '', true);
-        $result			= PhocacartProduct::getProducts(0, $p['item_limit'], $p['item_ordering'], 0, true, false, false, 0, $p['catid_multiple'], $p['featured_only'], array(0,1), '', '', true);
-        $pathitem 		= PhocacartPath::getPath('productimage');
+      $result			= PhocacartProduct::getProducts($p['offset'], $p['limit'], $p['order'], 0, true, false, false, 0, $p['catid_multiple'], $p['featured_only'], array(0,1), '', '', true);
+      //$result = civicrm_api4('Contact', 'get', $params);
+      $pathitem 		= PhocacartPath::getPath('productimage');
 
-        foreach ($result as &$product) {
-            if (!empty($product->image)) {
-                //$product->image_URL = "<img src='$pathitem->orig_rel_ds.{$product->image}'>";
+      foreach ($result as &$product) {
+        if (!empty($product->image)) {
+          //$product->image_URL = "<img src='$pathitem->orig_rel_ds.{$product->image}'>";
             $product->image = DS.$pathitem['orig_rel_ds'].$product->image;
             $product->link = JRoute::_(PhocacartRoute::getItemRoute($product->id, $product->catid, $product->alias, $product->catalias));
 
