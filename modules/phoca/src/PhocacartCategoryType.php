@@ -6,6 +6,7 @@ class PhocacartCategoryType
   public static $fieldsToKeep = [
     'id',
     'title',
+    'title_long',
     'description',
     'image',
   ];
