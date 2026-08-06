@@ -161,7 +161,16 @@ class PhocacartProductsQueryType
       */
       PCU::applyUrlFilter($args, $p);
 
-      $result			= PhocacartProduct::getProducts($p['offset'], $p['limit'], $p['order'], 0, true, false, false, 0, $p['catid_multiple'], $p['featured_only'], array(0,1), '', '', true);
+		if (!array_key_exists('order',$p)) {
+          $p['order'] = 3;
+      }
+      if (!array_key_exists('featured_only',$p)) {
+            $p['featured_only'] = 0;
+      }
+      $result1			= PhocacartProduct::getProducts($p['offset'], $p['limit'], $p['order'], 0, true, false, false, 0, $p['catid_multiple'], 1, array(0,1), '', '', true);
+      $result2			= PhocacartProduct::getProducts($p['offset'], $p['limit'], $p['order'], 0, true, false, false, 0, $p['catid_multiple'], 0, array(0,1), '', '', true);
+      $result = array_merge($result1, $result2);
+
       //$result = civicrm_api4('Contact', 'get', $params);
       $pathitem 		= PhocacartPath::getPath('productimage');
 
