@@ -9,6 +9,7 @@ class PhocacartCategoryType
     'title_long',
     'description',
     'image',
+	'special_parameter'  
   ];
 
   public static $fieldsToAdd = [
